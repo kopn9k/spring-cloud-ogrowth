@@ -2,6 +2,7 @@ package com.pasha.springcloudogrowth;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 @SpringBootApplication
@@ -26,9 +27,12 @@ public class SpringCloudOgrowthApplication {
         return String.format("{\"message\": \"Hello %s %s\"}", helloRequest.getFirstName(), helloRequest.getLastName());
     }
 
-    class HelloRequest {
+    static class HelloRequest {
         private String firstName;
         private String lastName;
+
+        public HelloRequest() {
+        }
 
         public String getFirstName() {
             return firstName;
