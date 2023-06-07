@@ -1,12 +1,21 @@
-version: '3'
+version: '3.9'
 
 services:
   configserver:
     image: ogrowth/configuration-server:0.0.1-SNAPSHOT
     ports:
       - "8071:8071"
+    healthcheck:
+      test: "/cnb/process/health-check"
+      interval: 2s
+      timeout: 3s
+      retries: 5
+      start_period: 3s
+#    environment:
+#      ENCRYPT_KEY: "fje83Ki8403Iod87dne7Yjsl3THueh48jfuO9j4U2hf64Lo"
     environment:
-      ENCRYPT_KEY: "fje83Ki8403Iod87dne7Yjsl3THueh48jfuO9j4U2hf64Lo"
+      THC_PATH: "/actuator/health"
+      THC_PORT: "8071"
     networks:
       backend:
         aliases:
@@ -19,7 +28,7 @@ services:
       CONFIGSERVER_PORT: "8071"
     depends_on:
       configserver:
-        condition: service_started
+        condition: service_healthy
     ports:
       - "8080:8080"
     networks:

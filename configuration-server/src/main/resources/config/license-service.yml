@@ -1,0 +1,31 @@
+# only for development, we shouldn't expose too much info and make if public visible by show-values
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+    enabled-by-default: 'true'
+  endpoint:
+    configprops:
+      show-values: always
+    env:
+      show-values: ALWAYS
+
+spring:
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    database: POSTGRESQL
+    hibernate:
+      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+      ddl-auto: none
+    show-sql: 'true'
+  datasource:
+    testWhileIdle: 'true'
+    validationQuery: SELECT 1
+    platform: postgres
+  database:
+    driverClassName: org.postgresql.Driver
+example:
+  property: I AM THE DEFAULT
