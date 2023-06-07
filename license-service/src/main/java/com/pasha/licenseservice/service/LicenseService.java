@@ -5,12 +5,12 @@ import java.util.Locale;
 
 public interface LicenseService {
 
-    License getLicense(String licenceId, String organizationId);
+    License getLicense(String licenceId, String organizationId, Locale locale);
 
-    String createLicence(License license, String organizationId, Locale locale);
+    License createLicence(License license);
 
-    String updateLicense(License license, String organizationId, Locale locale);
+    License updateLicense(License license);
 
-    String deleteLicense(String licenseId, String organizationId, Locale locale);
+    String deleteLicense(String licenseId, Locale locale);
 
 }
