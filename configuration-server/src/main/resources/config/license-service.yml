@@ -1,3 +1,4 @@
+#this file can be used with native profile of sccs
 # only for development, we shouldn't expose too much info and make if public visible by show-values
 management:
   endpoints:

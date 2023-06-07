@@ -1,7 +1,8 @@
+#this file can be used with native profile of sccs
 spring:
   datasource:
     username: postgres
     url: jdbc:postgresql://database:5432/ostock_dev
-    password: postgres
+    password: {cipher}98faf1e15fac19c9a979347ea56fa0c722787481e2d021ad98538505e7570a3b
 example:
   property: I AM DEV
