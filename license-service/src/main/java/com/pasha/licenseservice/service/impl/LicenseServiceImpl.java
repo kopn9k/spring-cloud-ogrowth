@@ -1,7 +1,6 @@
 package com.pasha.licenseservice.service.impl;
 
 import com.pasha.licenseservice.config.ServiceConfig;
-import com.pasha.licenseservice.mapper.LicenseMapper;
 import com.pasha.licenseservice.model.License;
 import com.pasha.licenseservice.repository.LicenseRepository;
 import com.pasha.licenseservice.service.LicenseService;
@@ -9,7 +8,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 import java.util.Locale;
-import java.util.Random;
 import java.util.UUID;
 
 @Service

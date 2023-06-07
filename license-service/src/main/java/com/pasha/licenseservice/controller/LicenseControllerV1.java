@@ -21,7 +21,7 @@ import java.util.Locale;
 @RequestMapping(value = "api/v1/organization/{organizationId}/license")
 public class LicenseControllerV1 {
 
-    private LicenseService licenseService;
+    private final LicenseService licenseService;
     private final LicenseMapper licenseMapper;
 
     public LicenseControllerV1(LicenseService licenseService, LicenseMapper licenseMapper) {
