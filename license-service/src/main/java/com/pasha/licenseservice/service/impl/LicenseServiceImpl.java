@@ -47,8 +47,11 @@ public class LicenseServiceImpl implements LicenseService {
     }
 
     @Override
-    public License updateLicense(License license) {
-        licenseRepository.save(license);
+    public License updateLicense(License license, String licenseId) {
+        licenseRepository.save(
+                license.toBuilder()
+                        .licenseId(licenseId)
+                        .build());
         return licenseWithComment(license);
     }
 

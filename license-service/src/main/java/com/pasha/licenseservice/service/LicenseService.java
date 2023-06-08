@@ -9,7 +9,7 @@ public interface LicenseService {
 
     License createLicence(License license);
 
-    License updateLicense(License license);
+    License updateLicense(License license, String licenseId);
 
     String deleteLicense(String licenseId, Locale locale);
 
