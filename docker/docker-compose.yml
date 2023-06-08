@@ -43,6 +43,15 @@ services:
     image: ogrowth/eurekaserver:0.0.1-SNAPSHOT
     ports:
       - "8070:8070"
+    healthcheck:
+      test: "/cnb/process/health-check"
+      interval: 2s
+      timeout: 3s
+      retries: 3
+      start_period: 3s
+    environment:
+      THC_PATH: "/actuator/health"
+      THC_PORT: "8070"
     depends_on:
       database:
         condition: service_healthy
@@ -65,6 +74,8 @@ services:
         condition: service_healthy
       configserver:
         condition: service_healthy
+      eurekaserver:
+        condition: service_healthy
     ports:
       - "8080:8080"
     networks:
@@ -81,6 +92,8 @@ services:
       database:
         condition: service_healthy
       configserver:
+        condition: service_healthy
+      eurekaserver:
         condition: service_healthy
     ports:
       - "8081:8081"
