@@ -11,7 +11,7 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import java.util.Locale;
 
 @SpringBootApplication
-@RefreshScope
+@RefreshScope //currently manual, by calling /actuator/refresh, later cloud bus need be added
 public class LicenseServiceApplication {
 
 	public static void main(String[] args) {
