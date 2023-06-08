@@ -22,6 +22,7 @@
     <modules>
         <module>license-service</module>
         <module>configuration-server</module>
+        <module>eurekaserver</module>
     </modules>
 
     <build>
