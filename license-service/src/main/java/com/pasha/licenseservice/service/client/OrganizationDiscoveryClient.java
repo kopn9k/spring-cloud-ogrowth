@@ -12,7 +12,7 @@ import java.util.List;
 
 //This client was implementing only for demo, not recommended to use
 @Component
-public class OrganizationDiscoveryClient {
+public class OrganizationDiscoveryClient implements OrganizationClient {
 
     private final DiscoveryClient discoveryClient;
 
@@ -21,6 +21,7 @@ public class OrganizationDiscoveryClient {
     }
 
 
+    @Override
     public Organization getOrganization(String organizationId) {
 
         //wasn't injected for not retrieving spring proxy bean with default client side load balancing

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 @Component
-public class OrganizationRestTemplateClient {
+public class OrganizationRestTemplateClient implements OrganizationClient {
 
     private final RestTemplate restTemplate;
 
@@ -15,6 +15,7 @@ public class OrganizationRestTemplateClient {
         this.restTemplate = restTemplate;
     }
 
+    @Override
     public Organization getOrganization(String organizationId) {
         ResponseEntity<Organization> response = restTemplate.exchange(
                 "http://organization-service/api/v1/organization/{organizationId}",
