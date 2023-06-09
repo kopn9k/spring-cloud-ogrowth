@@ -1,6 +1,7 @@
 package com.pasha.licenseservice.controller;
 
 import com.pasha.licenseservice.mapper.LicenseMapper;
+import com.pasha.licenseservice.model.ClientType;
 import com.pasha.licenseservice.model.License;
 import com.pasha.licenseservice.service.LicenseService;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Locale;
 
 
@@ -29,25 +31,45 @@ public class LicenseControllerV1 {
         this.licenseMapper = licenseMapper;
     }
 
+    @GetMapping(value = "/")
+    public List<License> getLicenses(@PathVariable("organizationId") String organizationId) {
+        return licenseService.getLicensesByOrganization(organizationId);
+    }
+
     @GetMapping(value = "/{licenseId}")
     public ResponseEntity<License> getLicense(
             @PathVariable(value = "organizationId") String organizationId,
             @PathVariable(value = "licenseId") String licenseId,
             @RequestHeader(value = "Accept-Language", required = false) Locale locale) {
-        License license = licenseService.getLicense(licenseId, organizationId, locale);
+        License license = licenseService.getLicense(licenseId, organizationId, locale, ClientType.DEFAULT);
 
         return ResponseEntity.ok(license);
 
     }
 
-    @PostMapping
-    public ResponseEntity<License> createLicense(@RequestBody License request) {
-        return ResponseEntity.ok(licenseService.createLicence(request));
+    @GetMapping(value = "/{licenseId}/{clientType}")
+    public ResponseEntity<License> getLicensesWithClient(
+            @PathVariable("organizationId") String organizationId,
+            @PathVariable("licenseId") String licenseId,
+            @PathVariable("clientType") ClientType clientType,
+            @RequestHeader(value = "Accept-Language", required = false) Locale locale) {
+        License license = licenseService.getLicense(licenseId, organizationId, locale, clientType);
+        return ResponseEntity.ok(license);
     }
 
-    @PutMapping
-    public ResponseEntity<License> updateLicense(@RequestBody License request) {
-        return ResponseEntity.ok(licenseService.updateLicense(request));
+    @PostMapping
+    public ResponseEntity<License> createLicense(
+            @RequestBody License request,
+            @PathVariable(value = "organizationId") String organizationId) {
+        return ResponseEntity.ok(licenseService.createLicence(request, organizationId));
+    }
+
+    @PutMapping(value = "/{licenseId}")
+    public ResponseEntity<License> updateLicense(
+            @PathVariable(value = "licenseId") String licenseId,
+            @PathVariable(value = "organizationId") String organizationId,
+            @RequestBody License license) {
+        return ResponseEntity.ok(licenseService.updateLicense(license, licenseId, organizationId));
     }
 
     @DeleteMapping(value = "/{licenseId}")
