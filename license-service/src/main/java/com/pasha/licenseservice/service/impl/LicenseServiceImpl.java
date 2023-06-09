@@ -9,12 +9,17 @@ import com.pasha.licenseservice.service.LicenseService;
 import com.pasha.licenseservice.service.client.OrganizationDiscoveryClient;
 import com.pasha.licenseservice.service.client.OrganizationFeignClient;
 import com.pasha.licenseservice.service.client.OrganizationRestTemplateClient;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 import java.util.UUID;
+import java.util.concurrent.TimeoutException;
 
 @Service
 public class LicenseServiceImpl implements LicenseService {
@@ -25,6 +30,8 @@ public class LicenseServiceImpl implements LicenseService {
     private final OrganizationRestTemplateClient organizationRestClient;
     private final OrganizationFeignClient organizationFeignClient;
     private final OrganizationDiscoveryClient organizationDiscoveryClient;
+
+    private static final Logger logger = LoggerFactory.getLogger(LicenseService.class);
 
     public LicenseServiceImpl(MessageSource messageSource, LicenseRepository licenseRepository,
                               ServiceConfig serviceConfig, OrganizationRestTemplateClient organizationRestClient,
@@ -53,8 +60,10 @@ public class LicenseServiceImpl implements LicenseService {
 
     }
 
+    @CircuitBreaker(name = "licenseService")
     @Override
-    public List<License> getLicensesByOrganization(String organizationId) {
+    public List<License> getLicensesByOrganization(String organizationId) throws TimeoutException {
+        randomlyRunLong();
         return licenseRepository.findByOrganizationId(organizationId);
     }
 
@@ -112,5 +121,20 @@ public class LicenseServiceImpl implements LicenseService {
                 yield organizationDiscoveryClient.getOrganization(organizationId);
             }
         };
+    }
+
+    private void randomlyRunLong() throws TimeoutException {
+        Random random = new Random();
+        int randomNum = random.nextInt((3 - 1) + 1) + 1;
+        if (randomNum==3) sleep();
+    }
+
+    private void sleep() throws TimeoutException {
+        try {
+            Thread.sleep(5000);
+            throw new java.util.concurrent.TimeoutException();
+        } catch (InterruptedException e) {
+            logger.error(e.getMessage());
+        }
     }
 }

@@ -5,6 +5,7 @@ import com.pasha.licenseservice.model.License;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeoutException;
 
 public interface LicenseService {
 
@@ -17,5 +18,5 @@ public interface LicenseService {
 
     String deleteLicense(String licenseId, Locale locale);
 
-    List<License> getLicensesByOrganization(String organizationId);
+    List<License> getLicensesByOrganization(String organizationId) throws TimeoutException;
 }
