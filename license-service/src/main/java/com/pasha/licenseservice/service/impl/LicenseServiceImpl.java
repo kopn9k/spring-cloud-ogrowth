@@ -9,6 +9,7 @@ import com.pasha.licenseservice.service.LicenseService;
 import com.pasha.licenseservice.service.client.OrganizationDiscoveryClient;
 import com.pasha.licenseservice.service.client.OrganizationFeignClient;
 import com.pasha.licenseservice.service.client.OrganizationRestTemplateClient;
+import io.github.resilience4j.bulkhead.annotation.Bulkhead;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
@@ -57,9 +58,12 @@ public class LicenseServiceImpl implements LicenseService {
 
     }
 
-    @CircuitBreaker(name = "licenseService", fallbackMethod = "buildFallbackLicenseList")
     @Override
+    @CircuitBreaker(name = "licenseService", fallbackMethod = "buildFallbackLicenseList")
+    @Bulkhead(name = "bulkheadLicenseService", type = Bulkhead.Type.THREADPOOL, fallbackMethod = "buildFallbackLicenseList")
     public List<License> getLicensesByOrganization(String organizationId) throws TimeoutException {
+        //logger.debug("getLicensesByOrganization Correlation id: {}",
+        //       UserContextHolder.getContext().getCorrelationId());
         randomlyRunLong();
         return licenseRepository.findByOrganizationId(organizationId);
     }
