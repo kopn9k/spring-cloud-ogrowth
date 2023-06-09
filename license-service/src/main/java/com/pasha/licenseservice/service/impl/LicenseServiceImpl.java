@@ -15,10 +15,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 
-import java.util.List;
-import java.util.Locale;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.TimeoutException;
 
 @Service
@@ -60,7 +57,7 @@ public class LicenseServiceImpl implements LicenseService {
 
     }
 
-    @CircuitBreaker(name = "licenseService")
+    @CircuitBreaker(name = "licenseService", fallbackMethod = "buildFallbackLicenseList")
     @Override
     public List<License> getLicensesByOrganization(String organizationId) throws TimeoutException {
         randomlyRunLong();
@@ -106,6 +103,7 @@ public class LicenseServiceImpl implements LicenseService {
                 .build();
     }
 
+    @CircuitBreaker(name = "organizationService")
     private Organization retrieveOrganization(String organizationId, ClientType clientType) {
         return switch (clientType) {
             case REST, DEFAULT -> {
@@ -136,5 +134,16 @@ public class LicenseServiceImpl implements LicenseService {
         } catch (InterruptedException e) {
             logger.error(e.getMessage());
         }
+    }
+
+    private List<License> buildFallbackLicenseList(String organizationId, Throwable t) {
+        List<License> fallbackList = new ArrayList<>();
+        License license = new License().toBuilder()
+                .licenseId("0000000-00-00000")
+                .organizationId(organizationId)
+                .productName("Sorry no licensing information currently available")
+                .build();
+        fallbackList.add(license);
+        return fallbackList;
     }
 }

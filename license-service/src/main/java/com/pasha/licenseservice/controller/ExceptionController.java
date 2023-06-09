@@ -21,8 +21,7 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
 
     /**
      * handleException - Handles all the Exception recieving a request, responseWrapper.
-     *@param request
-     *@param responseWrapper
+    *@param responseWrapper
      *@return ResponseEntity<ResponseWrapper>
      */
     @ExceptionHandler(value = { Exception.class })
@@ -33,8 +32,7 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
 
     /**
      * handleIOException - Handles all the Authentication Exceptions of the application.
-     *@param request
-     *@param exception
+     *@param e
      *@return ResponseEntity<ResponseWrapper>
 
      */
