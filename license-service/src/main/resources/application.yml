@@ -5,4 +5,8 @@ spring:
     active: dev
   config:
     import: optional:configserver:http://configserver:8071
+logging:
+  level:
+      org.springframework.web: WARN
+      com.com.pasha: DEBUG
 

@@ -9,6 +9,7 @@ import com.pasha.licenseservice.service.LicenseService;
 import com.pasha.licenseservice.service.client.OrganizationDiscoveryClient;
 import com.pasha.licenseservice.service.client.OrganizationFeignClient;
 import com.pasha.licenseservice.service.client.OrganizationRestTemplateClient;
+import com.pasha.licenseservice.utils.UserContextHolder;
 import io.github.resilience4j.bulkhead.annotation.Bulkhead;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
@@ -68,8 +69,8 @@ public class LicenseServiceImpl implements LicenseService {
     @Bulkhead(name = "bulkheadLicenseService", type = Bulkhead.Type.SEMAPHORE)
     @RateLimiter(name = "rateLicenseService")
     public List<License> getLicensesByOrganization(String organizationId) throws TimeoutException {
-        //logger.debug("getLicensesByOrganization Correlation id: {}",
-        //       UserContextHolder.getContext().getCorrelationId());
+        logger.debug("getLicensesByOrganization Correlation id: {}",
+               UserContextHolder.getContext().getCorrelationId());
         randomlyRunLong();
         return licenseRepository.findByOrganizationId(organizationId);
     }
