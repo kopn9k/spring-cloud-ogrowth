@@ -141,6 +141,7 @@ public class LicenseServiceImpl implements LicenseService {
     }
 
     private List<License> buildFallbackLicenseList(String organizationId, Throwable t) {
+        logger.error(t.getMessage());
         List<License> fallbackList = new ArrayList<>();
         License license = new License().toBuilder()
                 .licenseId("0000000-00-00000")
