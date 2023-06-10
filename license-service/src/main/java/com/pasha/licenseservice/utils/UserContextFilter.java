@@ -30,12 +30,10 @@ public class UserContextFilter implements Filter {
 
         UserContext userContext = UserContextHolder.getContext();
 
-        userContext.toBuilder()
-                .correlationId(httpServletRequest.getHeader(UserContext.CORRELATION_ID))
-                .userId(httpServletRequest.getHeader(UserContext.USER_ID))
-                .authToken(httpServletRequest.getHeader(UserContext.AUTH_TOKEN))
-                .organizationId(httpServletRequest.getHeader(UserContext.ORGANIZATION_ID))
-                .build();
+        userContext.setCorrelationId(httpServletRequest.getHeader(UserContext.CORRELATION_ID));
+        userContext.setUserId(httpServletRequest.getHeader(UserContext.USER_ID));
+        userContext.setAuthToken(httpServletRequest.getHeader(UserContext.AUTH_TOKEN));
+        userContext.setOrganizationId(httpServletRequest.getHeader(UserContext.ORGANIZATION_ID));
 
         logger.debug("UserContextFilter Correlation id: {}", UserContextHolder.getContext().getCorrelationId());
 

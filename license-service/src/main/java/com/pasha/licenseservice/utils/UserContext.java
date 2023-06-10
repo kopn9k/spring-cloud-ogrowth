@@ -1,12 +1,10 @@
 package com.pasha.licenseservice.utils;
 
-import lombok.Builder;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
 @Component
 @Data
-@Builder(toBuilder = true)
 public class UserContext {
     public static final String CORRELATION_ID = "tmx-correlation-id";
     public static final String AUTH_TOKEN     = "tmx-auth-token";
