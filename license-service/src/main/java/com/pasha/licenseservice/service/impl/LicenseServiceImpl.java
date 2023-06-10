@@ -11,6 +11,7 @@ import com.pasha.licenseservice.service.client.OrganizationFeignClient;
 import com.pasha.licenseservice.service.client.OrganizationRestTemplateClient;
 import io.github.resilience4j.bulkhead.annotation.Bulkhead;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
@@ -60,6 +61,7 @@ public class LicenseServiceImpl implements LicenseService {
 
     @Override
     @CircuitBreaker(name = "licenseService", fallbackMethod = "buildFallbackLicenseList")
+    @Retry(name = "retryLicenseService", fallbackMethod= "buildFallbackLicenseList")
     @Bulkhead(name = "bulkheadLicenseService", type = Bulkhead.Type.THREADPOOL, fallbackMethod = "buildFallbackLicenseList")
     public List<License> getLicensesByOrganization(String organizationId) throws TimeoutException {
         //logger.debug("getLicensesByOrganization Correlation id: {}",
