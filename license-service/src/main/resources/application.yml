@@ -8,5 +8,5 @@ spring:
 logging:
   level:
       org.springframework.web: WARN
-      com.com.pasha: DEBUG
+      com.pasha: DEBUG
 
