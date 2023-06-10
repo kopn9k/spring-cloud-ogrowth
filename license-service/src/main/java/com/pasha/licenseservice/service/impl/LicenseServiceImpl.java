@@ -60,9 +60,11 @@ public class LicenseServiceImpl implements LicenseService {
     }
 
     @Override
-    @CircuitBreaker(name = "licenseService", fallbackMethod = "buildFallbackLicenseList")
+    @CircuitBreaker(name = "licenseService")
+    // if circuit breaker(cb) will be in open state, retry will not work, as it has more priority than retry
+    // also fallback methods of both cb and bulkhead has more priority than retry
     @Retry(name = "retryLicenseService", fallbackMethod= "buildFallbackLicenseList")
-    @Bulkhead(name = "bulkheadLicenseService", type = Bulkhead.Type.THREADPOOL, fallbackMethod = "buildFallbackLicenseList")
+    @Bulkhead(name = "bulkheadLicenseService", type = Bulkhead.Type.SEMAPHORE)
     public List<License> getLicensesByOrganization(String organizationId) throws TimeoutException {
         //logger.debug("getLicensesByOrganization Correlation id: {}",
         //       UserContextHolder.getContext().getCorrelationId());
@@ -130,12 +132,13 @@ public class LicenseServiceImpl implements LicenseService {
     private void randomlyRunLong() throws TimeoutException {
         Random random = new Random();
         int randomNum = random.nextInt((3 - 1) + 1) + 1;
+        System.out.println(randomNum + " " +Thread.currentThread().getName());
         if (randomNum==3) sleep();
     }
 
     private void sleep() throws TimeoutException {
         try {
-            Thread.sleep(5000);
+            Thread.sleep(3000);
             throw new java.util.concurrent.TimeoutException();
         } catch (InterruptedException e) {
             logger.error(e.getMessage());
