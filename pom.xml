@@ -24,6 +24,7 @@
         <module>configuration-server</module>
         <module>eurekaserver</module>
         <module>organization-service</module>
+        <module>gatewayserver</module>
     </modules>
 
     <build>
