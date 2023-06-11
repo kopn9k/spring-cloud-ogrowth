@@ -3,7 +3,7 @@ package com.pasha.gatewayserver;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication //actuator/gateway/refresh
+@SpringBootApplication // actuator/gateway/refresh for automatically route refresh
 
 public class GatewayserverApplication {
 
