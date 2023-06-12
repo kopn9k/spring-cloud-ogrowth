@@ -53,7 +53,7 @@ public class LicenseServiceImpl implements LicenseService {
                         String.format(messageSource.getMessage(
                                 "license.search.error.message", null, locale), licenceId, organizationId)
                 ));
-        logger.debug("getLicensesByOrganization Correlation id: {}",
+        logger.debug("LicenseServiceImpl.getLicense() Correlation id: {}",
                 UserContextHolder.getContext().getCorrelationId());
         Organization organization = retrieveOrganization(organizationId, clientType);
         license.setOrganization(organization);

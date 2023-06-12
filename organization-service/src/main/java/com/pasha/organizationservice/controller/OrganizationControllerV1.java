@@ -26,7 +26,7 @@ public class OrganizationControllerV1 {
 
     @GetMapping(value = "/{organizationId}")
     public ResponseEntity<Organization> getOrganization(@PathVariable(value = "organizationId") String organizationId) {
-        logger.debug("LicenseServiceController Correlation id: {}", UserContextHolder.getContext().getCorrelationId());
+        logger.debug("OrganizationControllerV1 Correlation id: {}", UserContextHolder.getContext().getCorrelationId());
         return ResponseEntity.ok(organizationService.getOrganization(organizationId));
     }
 

@@ -39,7 +39,7 @@ public class LicenseControllerV1 {
 
     @GetMapping(value = "/")
     public List<License> getLicenses(@PathVariable("organizationId") String organizationId) throws TimeoutException {
-        logger.debug("LicenseServiceController Correlation id: {}", UserContextHolder.getContext().getCorrelationId());
+        logger.debug("LicenseControllerV1 Correlation id: {}", UserContextHolder.getContext().getCorrelationId());
         return licenseService.getLicensesByOrganization(organizationId);
     }
 

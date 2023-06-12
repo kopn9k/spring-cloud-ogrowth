@@ -23,7 +23,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     public Organization getOrganization(String organizationId) {
-        logger.debug("LicenseServiceController Correlation id: {}", UserContextHolder.getContext().getCorrelationId());
+        logger.debug("OrganizationServiceImpl.getOrganization() Correlation id: {}", UserContextHolder.getContext().getCorrelationId());
         return organizationRepository.findById(organizationId).orElseGet(Organization::new);
     }
 
