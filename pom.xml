@@ -27,6 +27,9 @@
         <module>gatewayserver</module>
     </modules>
 
+    <!-- mvn clean package spring-boot:build-image -->
+    <!-- mvn clean package spring-boot:build-image -pl service-a -->
+
     <build>
         <plugins>
             <plugin>
