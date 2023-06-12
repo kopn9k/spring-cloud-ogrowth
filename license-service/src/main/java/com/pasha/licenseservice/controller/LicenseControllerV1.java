@@ -48,6 +48,7 @@ public class LicenseControllerV1 {
             @PathVariable(value = "organizationId") String organizationId,
             @PathVariable(value = "licenseId") String licenseId,
             @RequestHeader(value = "Accept-Language", required = false) Locale locale) {
+        logger.debug("LicenseServiceController Correlation id: {}", UserContextHolder.getContext().getCorrelationId());
         License license = licenseService.getLicense(licenseId, organizationId, locale, ClientType.DEFAULT);
 
         return ResponseEntity.ok(license);
@@ -60,6 +61,7 @@ public class LicenseControllerV1 {
             @PathVariable("licenseId") String licenseId,
             @PathVariable("clientType") ClientType clientType,
             @RequestHeader(value = "Accept-Language", required = false) Locale locale) {
+        logger.debug("LicenseServiceController Correlation id: {}", UserContextHolder.getContext().getCorrelationId());
         License license = licenseService.getLicense(licenseId, organizationId, locale, clientType);
         return ResponseEntity.ok(license);
     }

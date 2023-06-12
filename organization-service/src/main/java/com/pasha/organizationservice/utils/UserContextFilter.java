@@ -1,4 +1,4 @@
-package com.pasha.licenseservice.utils;
+package com.pasha.organizationservice.utils;
 
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;

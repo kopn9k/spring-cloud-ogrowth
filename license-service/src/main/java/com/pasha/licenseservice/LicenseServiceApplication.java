@@ -8,10 +8,12 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
+import java.util.List;
 import java.util.Locale;
 
 @SpringBootApplication
@@ -41,8 +43,12 @@ public class LicenseServiceApplication {
 
 	@LoadBalanced
 	@Bean
-	public RestTemplate restTemplate(){
-		return new RestTemplate();
+	public RestTemplate restTemplate(ClientHttpRequestInterceptor userContextInterceptor){
+		RestTemplate restTemplate = new RestTemplate();
+		var interceptors = restTemplate.getInterceptors();
+		interceptors.add(userContextInterceptor);
+
+		return restTemplate;
 	}
 
 }
