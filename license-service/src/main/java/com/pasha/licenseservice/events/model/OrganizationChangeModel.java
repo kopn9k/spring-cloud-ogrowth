@@ -1,6 +1,6 @@
-package com.pasha.organizationservice.events.model;
+package com.pasha.licenseservice.events.model;
 
-import com.pasha.organizationservice.utils.ActionEnum;
+import com.pasha.licenseservice.utils.ActionEnum;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

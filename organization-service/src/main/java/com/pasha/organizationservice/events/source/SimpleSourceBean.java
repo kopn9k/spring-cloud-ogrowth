@@ -20,10 +20,10 @@ public class SimpleSourceBean {
     }
 
     public void publishOrganizationChange(ActionEnum action, String organizationId){
-        logger.debug("Sending Kafka message {} for Organization Id: {}", action, organizationId);
+        logger.debug("Sending Kafka message {} for Organization Id: {}", action.toString(), organizationId);
         OrganizationChangeModel change =  new OrganizationChangeModel(
                 OrganizationChangeModel.class.getTypeName(),
-                action.toString(),
+                action,
                 organizationId,
                 UserContext.getCorrelationId());
 
