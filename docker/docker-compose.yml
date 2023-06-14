@@ -83,25 +83,53 @@ services:
       backend:
         aliases:
           - "gateway"
-  licensingservice:
-    image: ogrowth/license-service:0.0.1-SNAPSHOT
-    environment:
-      PROFILE: "dev"
-      CONFIGSERVER_URI: "http://configserver:8071"
-      CONFIGSERVER_PORT: "8071"
-      DATABASESERVER_PORT: "5432"
-      ENCRYPT_KEY: "IMSYMMETRIC"
-    depends_on:
-      database:
-        condition: service_healthy
-      configserver:
-        condition: service_healthy
-      eurekaserver:
-        condition: service_healthy
+#  redisserver:
+#    image: redis:alpine
+#    ports:
+#      - "6379:6379"
+#    networks:
+#      backend:
+#        aliases:
+#          - "redis"
+#  zookeeper:
+#    image: docker.io/bitnami/zookeeper:3.8
+#    ports:
+#      - "2181:2181"
+#    environment:
+#      - ALLOW_ANONYMOUS_LOGIN=yes
+  kafkaserver:
+    image: 'bitnami/kafka:latest'
     ports:
-      - "8080:8080"
+      - '9092:9092'
+    environment:
+      - KAFKA_ADVERTISED_HOST_NAME=kafka
+      - KAFKA_ADVERTISED_PORT=9092
+      - ALLOW_PLAINTEXT_LISTENER=yes
     networks:
-      - backend
+      backend:
+        aliases:
+          - "kafka"
+#  licensingservice:
+#    image: ogrowth/license-service:0.0.1-SNAPSHOT
+#    environment:
+#      PROFILE: "dev"
+#      CONFIGSERVER_URI: "http://configserver:8071"
+#      CONFIGSERVER_PORT: "8071"
+#      DATABASESERVER_PORT: "5432"
+#      ENCRYPT_KEY: "IMSYMMETRIC"
+#    depends_on:
+#      database:
+#        condition: service_healthy
+#      configserver:
+#        condition: service_healthy
+#      eurekaserver:
+#        condition: service_healthy
+#      kafkaserver:
+#        condition: service_started
+#    ports:
+#      - "8080:8080"
+#    networks:
+#      - backend
   organizationservice:
     image: ogrowth/organization-service:0.0.1-SNAPSHOT
     environment:
@@ -117,6 +145,8 @@ services:
         condition: service_healthy
       eurekaserver:
         condition: service_healthy
+      kafkaserver:
+        condition: service_started
     ports:
       - "8081:8081"
     networks:

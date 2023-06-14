@@ -1,9 +1,11 @@
 package com.pasha.organizationservice.service.impl;
 
+import com.pasha.organizationservice.events.source.SimpleSourceBean;
 import com.pasha.organizationservice.model.Organization;
 import com.pasha.organizationservice.repository.OrganizationRepository;
 import com.pasha.organizationservice.service.OrganizationService;
-import com.pasha.organizationservice.utils.UserContextHolder;
+import com.pasha.organizationservice.utils.ActionEnum;
+import com.pasha.organizationservice.utils.UserContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -16,24 +18,28 @@ public class OrganizationServiceImpl implements OrganizationService {
     private static final Logger logger = LoggerFactory.getLogger(OrganizationService.class);
 
     private final OrganizationRepository organizationRepository;
+    private final SimpleSourceBean simpleSourceBean;
 
-    public OrganizationServiceImpl(OrganizationRepository organizationRepository) {
+    public OrganizationServiceImpl(OrganizationRepository organizationRepository, SimpleSourceBean simpleSourceBean) {
         this.organizationRepository = organizationRepository;
+        this.simpleSourceBean = simpleSourceBean;
     }
 
     @Override
     public Organization getOrganization(String organizationId) {
-        logger.debug("OrganizationServiceImpl.getOrganization() Correlation id: {}", UserContextHolder.getContext().getCorrelationId());
+        logger.debug("OrganizationServiceImpl.getOrganization() Correlation id: {}", UserContext.getCorrelationId());
+        simpleSourceBean.publishOrganizationChange(ActionEnum.GET, organizationId);
         return organizationRepository.findById(organizationId).orElseGet(Organization::new);
     }
 
     @Override
     public Organization createOrganization(Organization organization) {
-        organizationRepository.save(
+        Organization savedOrganization = organizationRepository.save(
                 organization.toBuilder()
                         .id(UUID.randomUUID().toString())
                         .build());
-        return organization;
+        simpleSourceBean.publishOrganizationChange(ActionEnum.CREATED, savedOrganization.getId());
+        return savedOrganization;
     }
 
     @Override
@@ -42,6 +48,7 @@ public class OrganizationServiceImpl implements OrganizationService {
                 organization.toBuilder()
                         .id(organizationId)
                         .build());
+        simpleSourceBean.publishOrganizationChange(ActionEnum.UPDATED, organizationId);
     }
 
     @Override
@@ -50,5 +57,6 @@ public class OrganizationServiceImpl implements OrganizationService {
                 new Organization().toBuilder()
                         .id(organizationId)
                         .build());
+        simpleSourceBean.publishOrganizationChange(ActionEnum.DELETED, organizationId);
     }
 }
