@@ -5,10 +5,5 @@ spring:
     active: dev
   config:
     import: optional:configserver:http://configserver:8071
-  cloud:
-    stream:
-      kafka:
-        binder:
-          brokers: kafka:9092
 
 
