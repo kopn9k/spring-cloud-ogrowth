@@ -83,20 +83,14 @@ services:
       backend:
         aliases:
           - "gateway"
-#  redisserver:
-#    image: redis:alpine
-#    ports:
-#      - "6379:6379"
-#    networks:
-#      backend:
-#        aliases:
-#          - "redis"
-#  zookeeper:
-#    image: docker.io/bitnami/zookeeper:3.8
-#    ports:
-#      - "2181:2181"
-#    environment:
-#      - ALLOW_ANONYMOUS_LOGIN=yes
+  redisserver:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    networks:
+      backend:
+        aliases:
+          - "redis"
   kafkaserver:
     image: 'bitnami/kafka:latest'
     ports:
@@ -151,7 +145,6 @@ services:
       - "8081:8081"
     networks:
       - backend
-
 
 networks:
   backend:
