@@ -5,7 +5,6 @@ import com.pasha.licenseservice.model.ClientType;
 import com.pasha.licenseservice.model.License;
 import com.pasha.licenseservice.service.LicenseService;
 import com.pasha.licenseservice.utils.UserContext;
-import com.pasha.licenseservice.utils.UserContextHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
