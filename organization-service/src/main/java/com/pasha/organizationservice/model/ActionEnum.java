@@ -1,4 +1,4 @@
-package com.pasha.licenseservice.utils;
+package com.pasha.organizationservice.model;
 
 public enum ActionEnum {
     GET,

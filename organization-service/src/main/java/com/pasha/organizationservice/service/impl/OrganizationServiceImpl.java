@@ -4,7 +4,7 @@ import com.pasha.organizationservice.events.source.SimpleSourceBean;
 import com.pasha.organizationservice.model.Organization;
 import com.pasha.organizationservice.repository.OrganizationRepository;
 import com.pasha.organizationservice.service.OrganizationService;
-import com.pasha.organizationservice.utils.ActionEnum;
+import com.pasha.organizationservice.model.ActionEnum;
 import com.pasha.organizationservice.utils.UserContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

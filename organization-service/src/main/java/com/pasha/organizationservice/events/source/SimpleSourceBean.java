@@ -1,7 +1,7 @@
 package com.pasha.organizationservice.events.source;
 
 import com.pasha.organizationservice.events.model.OrganizationChangeModel;
-import com.pasha.organizationservice.utils.ActionEnum;
+import com.pasha.organizationservice.model.ActionEnum;
 import com.pasha.organizationservice.utils.UserContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

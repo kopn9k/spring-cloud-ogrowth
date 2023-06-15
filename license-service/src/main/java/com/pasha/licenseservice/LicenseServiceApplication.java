@@ -1,5 +1,7 @@
 package com.pasha.licenseservice;
 
+import com.pasha.licenseservice.config.ServiceConfig;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -8,6 +10,9 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.LocaleResolver;
@@ -24,6 +29,9 @@ public class LicenseServiceApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(LicenseServiceApplication.class, args);
 	}
+
+	@Autowired
+	ServiceConfig serviceConfig;
 
 	@Bean
 	public LocaleResolver messageLocaleResolver() {
@@ -48,6 +56,22 @@ public class LicenseServiceApplication {
 		interceptors.add(userContextInterceptor);
 
 		return restTemplate;
+	}
+
+	@Bean
+	JedisConnectionFactory jedisConnectionFactory() {
+		String hostName = serviceConfig.getRedisServer();
+		int port = Integer.parseInt(serviceConfig.getRedisPort());
+		RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration(hostName, port);
+		return new JedisConnectionFactory(redisStandaloneConfiguration);
+
+	}
+
+	@Bean
+	public RedisTemplate<String, Object> redisTemplate() {
+		RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+		redisTemplate.setConnectionFactory(jedisConnectionFactory());
+		return redisTemplate;
 	}
 
 }

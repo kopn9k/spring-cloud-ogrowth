@@ -14,10 +14,8 @@ public class OrganizationChangeHandler {
 
     @Bean
     Consumer<OrganizationChangeModel> logger() {
-        return organizationChangeHandler -> {
-            logger.debug("Received an {} event for organization id {} and correlation id {}",
-                    organizationChangeHandler.getAction().toString(), organizationChangeHandler.getOrganizationId(),
-                    organizationChangeHandler.getCorrelationId());
-        };
+        return organizationChangeHandler -> logger.debug("Received an {} event for organization id {} and correlation id {}",
+                organizationChangeHandler.getAction().toString(), organizationChangeHandler.getOrganizationId(),
+                organizationChangeHandler.getCorrelationId());
     }
 }

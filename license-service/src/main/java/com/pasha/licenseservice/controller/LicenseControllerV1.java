@@ -4,6 +4,7 @@ import com.pasha.licenseservice.mapper.LicenseMapper;
 import com.pasha.licenseservice.model.ClientType;
 import com.pasha.licenseservice.model.License;
 import com.pasha.licenseservice.service.LicenseService;
+import com.pasha.licenseservice.utils.UserContext;
 import com.pasha.licenseservice.utils.UserContextHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +40,7 @@ public class LicenseControllerV1 {
 
     @GetMapping(value = "/")
     public List<License> getLicenses(@PathVariable("organizationId") String organizationId) throws TimeoutException {
-        logger.debug("LicenseControllerV1 Correlation id: {}", UserContextHolder.getContext().getCorrelationId());
+        logger.debug("LicenseControllerV1 Correlation id: {}", UserContext.getCorrelationId());
         return licenseService.getLicensesByOrganization(organizationId);
     }
 
@@ -48,7 +49,7 @@ public class LicenseControllerV1 {
             @PathVariable(value = "organizationId") String organizationId,
             @PathVariable(value = "licenseId") String licenseId,
             @RequestHeader(value = "Accept-Language", required = false) Locale locale) {
-        logger.debug("LicenseServiceController Correlation id: {}", UserContextHolder.getContext().getCorrelationId());
+        logger.debug("LicenseServiceController Correlation id: {}", UserContext.getCorrelationId());
         License license = licenseService.getLicense(licenseId, organizationId, locale, ClientType.DEFAULT);
 
         return ResponseEntity.ok(license);
@@ -61,7 +62,7 @@ public class LicenseControllerV1 {
             @PathVariable("licenseId") String licenseId,
             @PathVariable("clientType") ClientType clientType,
             @RequestHeader(value = "Accept-Language", required = false) Locale locale) {
-        logger.debug("LicenseServiceController Correlation id: {}", UserContextHolder.getContext().getCorrelationId());
+        logger.debug("LicenseServiceController Correlation id: {}", UserContext.getCorrelationId());
         License license = licenseService.getLicense(licenseId, organizationId, locale, clientType);
         return ResponseEntity.ok(license);
     }
