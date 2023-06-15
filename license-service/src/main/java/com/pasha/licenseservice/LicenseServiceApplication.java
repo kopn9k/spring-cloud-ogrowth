@@ -9,6 +9,7 @@ import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
@@ -50,6 +51,7 @@ public class LicenseServiceApplication {
 
 	@LoadBalanced
 	@Bean
+	@Primary
 	public RestTemplate restTemplate(ClientHttpRequestInterceptor userContextInterceptor){
 		RestTemplate restTemplate = new RestTemplate();
 		var interceptors = restTemplate.getInterceptors();
