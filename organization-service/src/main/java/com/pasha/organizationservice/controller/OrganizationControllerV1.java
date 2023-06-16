@@ -3,8 +3,6 @@ package com.pasha.organizationservice.controller;
 import com.pasha.organizationservice.mapper.OrganizationMapper;
 import com.pasha.organizationservice.model.Organization;
 import com.pasha.organizationservice.service.OrganizationService;
-import com.pasha.organizationservice.utils.UserContext;
-import com.pasha.organizationservice.utils.UserContextHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
