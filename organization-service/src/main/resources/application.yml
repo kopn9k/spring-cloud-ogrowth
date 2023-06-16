@@ -5,5 +5,3 @@ spring:
     active: dev
   config:
     import: optional:configserver:http://configserver:8071
-
-

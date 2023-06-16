@@ -4,6 +4,7 @@ import com.pasha.licenseservice.config.ServiceConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -52,12 +53,9 @@ public class LicenseServiceApplication {
 	@LoadBalanced
 	@Bean
 	@Primary
-	public RestTemplate restTemplate(ClientHttpRequestInterceptor userContextInterceptor){
-		RestTemplate restTemplate = new RestTemplate();
-		var interceptors = restTemplate.getInterceptors();
-		interceptors.add(userContextInterceptor);
-
-		return restTemplate;
+	public RestTemplate restTemplate(ClientHttpRequestInterceptor userContextInterceptor, RestTemplateBuilder restTemplateBuilder){
+		restTemplateBuilder.additionalInterceptors(userContextInterceptor);
+		return restTemplateBuilder.build();
 	}
 
 	@Bean

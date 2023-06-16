@@ -25,9 +25,8 @@ public class OrganizationChangeHandler {
             String organizationId = organizationChangeHandler.getOrganizationId();
             switch (organizationChangeHandler.getAction()) {
                 case GET -> {
-                    logger.debug("Received a message of type " + organizationChangeHandler.getType());
-                    logger.debug("Received a message with an event {} from the organization service for the organization id {} ",
-                            organizationChangeHandler.getAction(), organizationId );
+                    logger.debug("Received a message of type {} with an event {} from the organization service for the organization id {} ",
+                            organizationChangeHandler.getType(), organizationChangeHandler.getAction(), organizationId );
                 }
                 case CREATED, UPDATED, DELETED -> {
                     logger.debug("Received an {} event for organization id {} and type {}",
