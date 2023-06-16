@@ -9,6 +9,7 @@ import com.pasha.licenseservice.service.LicenseService;
 import com.pasha.licenseservice.service.client.OrganizationDiscoveryClient;
 import com.pasha.licenseservice.service.client.OrganizationFeignClient;
 import com.pasha.licenseservice.service.client.OrganizationRestTemplateClient;
+import com.pasha.licenseservice.utils.UserContext;
 import com.pasha.licenseservice.utils.UserContextHolder;
 import io.github.resilience4j.bulkhead.annotation.Bulkhead;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
@@ -53,10 +54,10 @@ public class LicenseServiceImpl implements LicenseService {
                         String.format(messageSource.getMessage(
                                 "license.search.error.message", null, locale), licenceId, organizationId)
                 ));
-        logger.debug("LicenseServiceImpl.getLicense() Correlation id: {}",
-                UserContextHolder.getContext().getCorrelationId());
         Organization organization = retrieveOrganization(organizationId, clientType);
         license.setOrganization(organization);
+
+        logger.debug("Retrieving license information: " + license.toString());
 
         return licenseWithComment(license);
 
@@ -71,7 +72,7 @@ public class LicenseServiceImpl implements LicenseService {
     @RateLimiter(name = "rateLicenseService")
     public List<License> getLicensesByOrganization(String organizationId) throws TimeoutException {
         logger.debug("getLicensesByOrganization Correlation id: {}",
-               UserContextHolder.getContext().getCorrelationId());
+               UserContext.getCorrelationId());
         randomlyRunLong();
         return licenseRepository.findByOrganizationId(organizationId);
     }

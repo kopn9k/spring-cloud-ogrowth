@@ -48,7 +48,7 @@ public class LicenseControllerV1 {
             @PathVariable(value = "organizationId") String organizationId,
             @PathVariable(value = "licenseId") String licenseId,
             @RequestHeader(value = "Accept-Language", required = false) Locale locale) {
-        logger.debug("LicenseServiceController Correlation id: {}", UserContext.getCorrelationId());
+        logger.debug("Entering the license-controller  ");
         License license = licenseService.getLicense(licenseId, organizationId, locale, ClientType.DEFAULT);
 
         return ResponseEntity.ok(license);

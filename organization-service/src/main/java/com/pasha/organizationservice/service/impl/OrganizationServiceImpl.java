@@ -27,7 +27,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     public Organization getOrganization(String organizationId) {
-        logger.debug("OrganizationServiceImpl.getOrganization() Correlation id: {}", UserContext.getCorrelationId());
+        logger.debug("OrganizationServiceImpl.getOrganization() Organization id: {}", organizationId);
         simpleSourceBean.publishOrganizationChange(ActionEnum.GET, organizationId);
         return organizationRepository.findById(organizationId).orElseGet(Organization::new);
     }

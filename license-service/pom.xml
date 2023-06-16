@@ -110,6 +110,10 @@
 			<artifactId>jedis</artifactId>
 			<type>jar</type>
 		</dependency>
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-tracing</artifactId>
+		</dependency>
 	</dependencies>
 
 	<dependencyManagement>

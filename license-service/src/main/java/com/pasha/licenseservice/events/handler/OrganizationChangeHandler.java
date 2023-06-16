@@ -24,16 +24,18 @@ public class OrganizationChangeHandler {
         return organizationChangeHandler -> {
             String organizationId = organizationChangeHandler.getOrganizationId();
             switch (organizationChangeHandler.getAction()) {
-                case GET -> logger.debug("Received an GET event for organization id {} and correlation id {}",
-                        organizationId,
-                        organizationChangeHandler.getCorrelationId());
+                case GET -> {
+                    logger.debug("Received a message of type " + organizationChangeHandler.getType());
+                    logger.debug("Received a message with an event {} from the organization service for the organization id {} ",
+                            organizationChangeHandler.getAction(), organizationId );
+                }
                 case CREATED, UPDATED, DELETED -> {
-                    logger.debug("Received an {} event for organization id {} and correlation id {}",
+                    logger.debug("Received an {} event for organization id {} and type {}",
                             organizationChangeHandler.getAction(), organizationId,
-                            organizationChangeHandler.getCorrelationId());
+                            organizationChangeHandler.getType());
                     try {
                         repository.deleteById(organizationId);
-                    }catch (Exception ex){
+                    } catch (Exception ex) {
                         logger.error("Unable to delete organization {} form Redis. Exception {}", organizationId, ex.getMessage());
                     }
                     logger.debug("Removed organization with id {} from redis cache", organizationId);

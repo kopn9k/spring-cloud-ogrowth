@@ -3,6 +3,7 @@ package com.pasha.organizationservice.controller;
 import com.pasha.organizationservice.mapper.OrganizationMapper;
 import com.pasha.organizationservice.model.Organization;
 import com.pasha.organizationservice.service.OrganizationService;
+import com.pasha.organizationservice.utils.UserContext;
 import com.pasha.organizationservice.utils.UserContextHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +27,7 @@ public class OrganizationControllerV1 {
 
     @GetMapping(value = "/{organizationId}")
     public ResponseEntity<Organization> getOrganization(@PathVariable(value = "organizationId") String organizationId) {
-        logger.debug("OrganizationControllerV1 Correlation id: {}", UserContextHolder.getContext().getCorrelationId());
+        logger.debug("Entering the getOrganization() method for the organizationId: {}",organizationId);
         return ResponseEntity.ok(organizationService.getOrganization(organizationId));
     }
 

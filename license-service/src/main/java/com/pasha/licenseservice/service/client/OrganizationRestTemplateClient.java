@@ -28,7 +28,7 @@ public class OrganizationRestTemplateClient implements OrganizationClient {
 
     @Override
     public Organization getOrganization(String organizationId) {
-        logger.debug("In Licensing Service.getOrganization: {}", UserContext.getCorrelationId());
+        logger.debug("In Licensing Service.getOrganization");
 
         Optional<Organization> organizationOptional = getOrganizationFromCache(organizationId);
 
