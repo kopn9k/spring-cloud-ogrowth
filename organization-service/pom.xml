@@ -19,6 +19,7 @@
         <docker.image.prefix>ogrowth</docker.image.prefix>
         <org.mapstruct.version>1.5.3.Final</org.mapstruct.version>
         <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
+        <logstash.logback.version>7.3</logstash.logback.version>
     </properties>
     <dependencies>
         <dependency>
@@ -98,6 +99,11 @@
         <dependency>
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-tracing-bridge-brave</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+            <version>${logstash.logback.version}</version>
         </dependency>
     </dependencies>
 
