@@ -41,7 +41,6 @@ public class OrganizationRestTemplateClient implements OrganizationClient {
        }
 
         logger.debug("Unable to locate organization from the redis cache: {}.", organizationId);
-        //"http://organization-service/api/v1/organization/{organizationId}",
         ResponseEntity<Organization> response = restTemplate.exchange(
                 "http://gateway-service:8072/organization/api/v1/organization/{organizationId}",
                 HttpMethod.GET,

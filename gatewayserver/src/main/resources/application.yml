@@ -3,10 +3,3 @@ spring:
     name: gateway-service
   config:
     import: optional:configserver:http://configserver:8071
-  jackson:
-    serialization:
-      indent-output: true
-management:
-  zipkin:
-    tracing:
-      endpoint: http://zipkin:9411/api/v2/spans
