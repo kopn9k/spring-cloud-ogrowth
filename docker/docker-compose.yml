@@ -61,7 +61,7 @@ services:
       start_period: 3s
     environment:
       THC_PATH: ${THC_PATH}
-      THC_PORT: ${CONFIG_PORT}
+      THC_PORT: ${EUREKA_PORT}
     depends_on:
       database:
         condition: service_healthy
