@@ -319,7 +319,7 @@ services:
       - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
       - ELASTIC_HOSTS=https://elasticsearch:9200
     ports:
-      - ${LOGSTASH_PORT}:5000"
+      - ${LOGSTASH_PORT}:5000
     healthcheck:
       test:
         [
