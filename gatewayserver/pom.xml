@@ -69,6 +69,10 @@
 			<artifactId>logstash-logback-encoder</artifactId>
 			<version>${logstash.logback.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>io.zipkin.reporter2</groupId>
+			<artifactId>zipkin-reporter-brave</artifactId>
+		</dependency>
 	</dependencies>
 
 	<dependencyManagement>

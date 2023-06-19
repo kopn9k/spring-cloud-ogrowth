@@ -1,5 +1,7 @@
 package com.pasha.licenseservice.service.client;
 
+import brave.ScopedSpan;
+import brave.Tracer;
 import com.pasha.licenseservice.model.Organization;
 import com.pasha.licenseservice.repository.OrganizationRedisRepository;
 import org.slf4j.Logger;
@@ -19,10 +21,12 @@ public class OrganizationRestTemplateClient implements OrganizationClient {
 
     private final RestTemplate restTemplate;
     private final OrganizationRedisRepository repository;
+    private final Tracer tracer;
 
-    public OrganizationRestTemplateClient(RestTemplate restTemplate, OrganizationRedisRepository repository) {
+    public OrganizationRestTemplateClient(RestTemplate restTemplate, OrganizationRedisRepository repository, Tracer tracer) {
         this.restTemplate = restTemplate;
         this.repository = repository;
+        this.tracer = tracer;
     }
 
     @Override
@@ -37,9 +41,9 @@ public class OrganizationRestTemplateClient implements OrganizationClient {
        }
 
         logger.debug("Unable to locate organization from the redis cache: {}.", organizationId);
-
+        //"http://organization-service/api/v1/organization/{organizationId}",
         ResponseEntity<Organization> response = restTemplate.exchange(
-                "http://organization-service/api/v1/organization/{organizationId}",
+                "http://gateway-service:8072/organization/api/v1/organization/{organizationId}",
                 HttpMethod.GET,
                 null, Organization.class, organizationId);
 
@@ -54,11 +58,16 @@ public class OrganizationRestTemplateClient implements OrganizationClient {
     }
 
     private Optional<Organization> getOrganizationFromCache(String organizationId) {
+        ScopedSpan newSpan = tracer.startScopedSpan("readLicensingDataFromRedis");
         try {
             return repository.findById(organizationId);
         } catch (Exception ex) {
             logger.error("Error encountered while trying to retrieve organization {} check Redis Cache.  Exception {}", organizationId, ex.getMessage());
             return Optional.empty();
+        } finally {
+            newSpan.tag("peer.service", "redis");
+            newSpan.annotate("Client received");
+            newSpan.finish();
         }
     }
 

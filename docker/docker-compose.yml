@@ -333,6 +333,22 @@ services:
       backend:
         aliases:
           - "logstash"
+  zipkin:
+    image: openzipkin/zipkin:latest
+#    depends_on:
+#      logstash:
+#        condition: service_healthy
+#    environment:
+#      - STORAGE_TYPE=elasticsearch
+#      - ES_HOSTS=http://elasticsearch:9200
+#      - ES_USERNAME=elastic
+#      - ES_PASSWORD=${ELASTIC_PASSWORD}
+    ports:
+      - "9411:9411"
+    networks:
+      backend:
+        aliases:
+          - "zipkin"
 
 networks:
   backend:
