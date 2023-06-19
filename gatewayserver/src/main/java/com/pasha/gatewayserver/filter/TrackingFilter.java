@@ -12,7 +12,7 @@ import reactor.core.publisher.Mono;
 
 
 @Component
-@Order(1)
+@Order(2)
 public class TrackingFilter implements GlobalFilter {
 
     private static final Logger logger = LoggerFactory.getLogger(TrackingFilter.class);
